@@ -20,6 +20,25 @@ DATABASES = {
     ),
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    },
+    'renditions': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': [
+            '127.0.0.1:11211',
+            '127.0.0.1:11212',
+            '127.0.0.1:11213',
+        ],
+        'TIMEOUT': 600,
+    }
+}
+
 try:
     from .local import *
 except ImportError:
