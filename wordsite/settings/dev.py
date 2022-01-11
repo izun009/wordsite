@@ -4,13 +4,21 @@ from .base import *
 DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ox4r)75caz+xydn$@vaq=j2m%t(2q$0p-=nk=m6z##i9dd5tnx'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = ['*'] 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+
+# Database
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+DATABASES = {
+    'default': env.db_url(
+        'SQLITE_URL'
+    ),
+}
 
 try:
     from .local import *
