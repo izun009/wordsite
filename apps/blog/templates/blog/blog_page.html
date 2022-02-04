@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block title %}
+
+{% if page.title %}
+{{ page.title }}
+{% elif tag %}
+Tag: {{ tag }}
+{% endif %}
+
+{% endblock title %}
+
+
+{% block content %}
+<!-- Block content -->
+
+
+
+<!-- Endblock content -->
+{% endblock content %}

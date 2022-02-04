@@ -29,7 +29,7 @@
         <div class="wrap">
             {% include 'includes/navbar.html' %}
 
-            {% include 'includes/carousel.html' %}
+            {% comment %} {% include 'includes/carousel.html' %} {% endcomment %}
 
             {% block content %}
                 {# content #}
@@ -38,7 +38,7 @@
             {% include 'includes/footer.html' %}
         </div>
 
-        <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div>
+        {% comment %} <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div> {% endcomment %}
 
         {# Global javascript #}
         {% include 'includes/scripts.html' %}

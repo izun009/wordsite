@@ -1,0 +1,15 @@
+{% load wagtailimages_tags %}
+
+<figure class="figure mt-4 mb-4">
+    {% image self.image width-900 height-500 as img %}
+    <img src="{{ img.url }}" class="figure-img img-fluid rounded" id="imageFull" alt="{{ self.attribution }}"
+        data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <figcaption class="figure-caption text-center">{{ self.caption }}</figcaption>
+</figure>
+
+<!-- Modal -->
+<div class="modal" id="imageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="imageContent">
+    <div id="caption"></div>
+</div>
