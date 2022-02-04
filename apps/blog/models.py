@@ -16,6 +16,7 @@ from wagtail.search.models import Query
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Page, PageManager
 from wagtail.snippets.models import register_snippet
+from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel
 
@@ -26,6 +27,37 @@ from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import Tag as TaggitTag, TaggedItemBase
 
 from ..pages.blocks import BaseStreamBlock
+
+# Snippet Author
+@register_snippet
+class BlogAuthor(models.Model):
+    name = models.CharField(max_length=100, blank=False, null=True)
+    intro = models.TextField(blank=False, null=True)
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        related_name="+",
+    )
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("name"),
+                FieldPanel("intro"),
+                ImageChooserPanel("image"),
+            ],
+            heading="Author Profile",
+        ),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:  # noqa
+        verbose_name = "Author"
+        verbose_name_plural = "Authors"
 
 # Snippet Category
 @register_snippet
@@ -77,11 +109,24 @@ class BlogPost(Page):
     # Related Post based on Tags
     relatetags = BlogPostManager()
 
+    blog_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name="+"
+    )
+    author = models.ForeignKey(
+        "BlogAuthor",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
     date_published = models.DateField(
         "Date published", blank=False, null=True
     )
     tags = ClusterTaggableManager(through=BlogPostTag, blank=True)
-    categories = ParentalManyToManyField('PostCategory', blank=False)
+    categories = ParentalManyToManyField("PostCategory", blank=False)
 
     body = StreamField(
         BaseStreamBlock(), verbose_name="Page body", blank=True
@@ -89,6 +134,8 @@ class BlogPost(Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
+            ImageChooserPanel('blog_image'),
+            FieldPanel('author'),
             FieldPanel('date_published'),
             FieldPanel('tags'),
             FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
