@@ -5,20 +5,11 @@ from wagtail.core import hooks
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin, modeladmin_register)
 
-from ..blog.models import PostCategory, PostPage
-
-"""
-Look documentation of wagtail hooks to adding custom richtext
-"""
+from ..blog.models import PostCategory, BlogPost
 
 # Wagtail ModelAdmin
 class PostPageModelAdmin(ModelAdmin):
-
-    """
-    Show all blog post of title, categories, tags, and published
-    """
-
-    model = PostPage
+    model = BlogPost
     menu_label = 'All Posts'
     menu_icon = 'folder-inverse'
     menu_order = 200
@@ -44,13 +35,16 @@ class PostPageModelAdmin(ModelAdmin):
             p.name for p in obj.tags.all()
         ])
         return tag
-# Add modeladmin to show at admin page
+
 modeladmin_register(PostPageModelAdmin)
 
 # 1. Use the register_rich_text_features hook.
 @hooks.register('register_rich_text_features')
 def register_mark_feature(features):
-    """Add the mark to the richtext editor and page."""
+    """
+    Registering the `mark` feature, which uses the `MARK` Draft.js inline style type,
+    and is stored as HTML with a `<mark>` tag.
+    """
     feature_name = 'mark'
     type_ = 'MARK'
     tag = 'mark'
@@ -59,6 +53,8 @@ def register_mark_feature(features):
         'type': type_,
         'label': '☆',
         'description': 'Mark',
+        # This isn’t even required – Draftail has predefined styles for MARK.
+        # 'style': {'textDecoration': 'line-through'},
     }
 
     features.register_editor_plugin(
@@ -71,6 +67,7 @@ def register_mark_feature(features):
     }
 
     features.register_converter_rule('contentstate', feature_name, db_conversion)
+    
     features.default_features.append(feature_name)
 
 # Adding Code in RichText
@@ -98,6 +95,7 @@ def register_code_styling(features):
     }
 
     features.register_converter_rule("contentstate", feature_name, db_conversion)
+
     features.default_features.append(feature_name)
 
 # Adding Subscript in RichText
@@ -125,6 +123,7 @@ def register_subscript_styling(features):
     }
 
     features.register_converter_rule("contentstate", feature_name, db_conversion)
+
     features.default_features.append(feature_name)
 
 # Adding Supscript in RichText
@@ -152,6 +151,7 @@ def register_superscript_styling(features):
     }
 
     features.register_converter_rule("contentstate", feature_name, db_conversion)
+
     features.default_features.append(feature_name)
 
 # Adding Strikethrough in RichText
@@ -179,6 +179,7 @@ def register_strikethrough_styling(features):
     }
 
     features.register_converter_rule("contentstate", feature_name, db_conversion)
+
     features.default_features.append(feature_name)
 
 # Adding Underline in RichText
@@ -206,6 +207,7 @@ def register_underline_styling(features):
     }
 
     features.register_converter_rule("contentstate", feature_name, db_conversion)
+
     features.default_features.append(feature_name)
 
 # Adding Blockquote in RichText
@@ -233,6 +235,7 @@ def register_blockquote_styling(features):
     }
 
     features.register_converter_rule("contentstate", feature_name, db_conversion)
+
     features.default_features.append(feature_name)
 
 

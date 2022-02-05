@@ -16,7 +16,7 @@ class ImageBlock(StructBlock):
 
     class Meta:
         icon = 'image'
-        templates = "blocks/image_block.html"
+        template = "blocks/image_block.html"
 
 class ZoomImageBlock(StructBlock):
     image = ImageChooserBlock(required=True)
@@ -25,7 +25,7 @@ class ZoomImageBlock(StructBlock):
 
     class Meta:
         icon = 'image'
-        templates = "blocks/zoom_image_block.html"
+        template = "blocks/zoom_image_block.html"
 
 class HeadingBlock(StructBlock):
     """
@@ -44,7 +44,7 @@ class HeadingBlock(StructBlock):
 
     class Meta:
         icon = "title"
-        templates = "blocks/heading_block.html"
+        template ="blocks/heading_block.html"
 
 # Post Content
 class BaseStreamBlock(StreamBlock):
@@ -54,7 +54,7 @@ class BaseStreamBlock(StreamBlock):
     heading_block = HeadingBlock()
     paragraph_block = RichTextBlock(
         icon="pilcrow",
-        templates="blocks/paragraph_block.html"
+        template="blocks/paragraph_block.html"
     )
     image_block = ImageBlock()
     zoom_image_block = ZoomImageBlock()
@@ -62,4 +62,5 @@ class BaseStreamBlock(StreamBlock):
     embed_block = EmbedBlock(
         help_text='Insert an embed URL e.g https://www.youtube.com/embed/SGJFWirQ3ks',
         icon="media",
-        templates="blocks/embed_block.html")
+        template="blocks/embed_block.html")
+

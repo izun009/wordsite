@@ -59,6 +59,7 @@ class BlogAuthor(models.Model):
         verbose_name = "Author"
         verbose_name_plural = "Authors"
 
+
 # Snippet Category
 @register_snippet
 class PostCategory(models.Model):
@@ -104,7 +105,7 @@ class BlogPostManager(PageManager):
 # Post Page
 class BlogPost(Page):
 
-    templates = 'blog/blog_post.html'
+    template = 'blog/blog_post.html'
 
     # Related Post based on Tags
     relatetags = BlogPostManager()
@@ -126,7 +127,7 @@ class BlogPost(Page):
         "Date published", blank=False, null=True
     )
     tags = ClusterTaggableManager(through=BlogPostTag, blank=True)
-    categories = ParentalManyToManyField("PostCategory", blank=False)
+    categories = ParentalManyToManyField('PostCategory', blank=False)
 
     body = StreamField(
         BaseStreamBlock(), verbose_name="Page body", blank=True
@@ -134,7 +135,7 @@ class BlogPost(Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            ImageChooserPanel('blog_image'),
+            ImageChooserPanel('blog_image'),            
             FieldPanel('author'),
             FieldPanel('date_published'),
             FieldPanel('tags'),
@@ -161,7 +162,6 @@ class BlogPost(Page):
 
     def get_context(self, request):
         context = super(BlogPost, self).get_context(request)
-        context['categories'] = PostCategory.objects.all()
         context['related_posts'] = BlogPost.relatetags.related_posts(self)
         return context
 
@@ -180,8 +180,16 @@ class BlogPost(Page):
 # blog Page
 class BlogPage(RoutablePageMixin, Page):
 
-    templates = 'blog/blog_page.html'
+    template = 'blog/blog_page.html'
     max_count = 1
+
+    introduction = models.TextField(
+        help_text='Text to describe the page',
+        blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('introduction', classname="full"),
+    ]
 
     def children(self):
         return self.get_children().specific().live()
@@ -271,7 +279,7 @@ class BlogPage(RoutablePageMixin, Page):
 
 
     # Search View    
-    @route(r"^search/$", name="search_view")
+    @route(r"^s/$", name="search_view")
     def search_view(self, request):
 
         search_query = request.GET.get('q', None)
