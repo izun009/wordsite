@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
+    # adding modeladmin for custom modeladmin
+    'wagtail.contrib.modeladmin',
 
     'wagtailcodeblock',
     'modelcluster',

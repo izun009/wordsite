@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-postpage{% endblock %}
+
+{% block title %}
+
+{{ page.title|title }}
+
+{% endblock title %}
+
+{% block content %}
+
+<!-- Main Content-->
+<section class="site-section py-lg">
+    <div class="container">
+
+        <div class="row blog-entries element-animate">
+
+            <div class="col-md-12 col-lg-8 main-content">
+
+                {% image page.blog_image original as thumbnail %}
+
+                <img src="{{ thumbnail.url }}" alt="{{ thumbnail.alt }}" class="img-fluid mb-5">
+                <div class="post-meta">
+                    <span class="author mr-2">
+
+                        {% image page.author.image original as author_image %}
+
+                        <img src="{{ author_image.url }}" alt="{{ author_image.alt }}" class="mr-2">
+                        {{ page.author }}</span>&bullet;
+                    <span class="mr-2">{{ page.first_published_at|date:"j F Y" }}</span> &bullet;
+                    <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                </div>
+                <h1 class="mb-4">{{ page.title }}</h1>
+                {% for category in page.categories.all %}
+                    <a class="category mb-5" href="/category/{{ category.slug }}">{{ category.title }}</a> 
+                {% endfor %}
+
+                <div class="post-content-body">
+                    {% with blocks=page.body %}
+                        {% for block in blocks %}
+                            <section class="block-{{ block.block_type }}">
+                                {{ block }}
+                            </section>
+                        {% endfor %}
+                    {% endwith %}
+                </div>
+
+
+                <div class="pt-5">
+                    <p>Tags: 
+                        {% if page.get_tags %}
+                            {% for tag in page.get_tags %}
+                                <a href="{{ tag.url }}">#{{ tag }}</a>,
+                            {% endfor %}
+                        {% endif %}
+                </div>
+
+
+                <div class="pt-5">
+                    <h3 class="mb-5">0 Comments</h3>
+                    <div class="comment-form-wrap pt-5">
+                        <h3 class="mb-5">Leave a comment</h3>
+                        <form action="#" class="p-5 bg-light">
+                            <div class="form-group">
+                                <label for="name">Name *</label>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" class="form-control" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="website">Website</label>
+                                <input type="url" class="form-control" id="website">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Post Comment" class="btn btn-primary">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- END main-content -->
+
+            {% include 'includes/sidebar.html' %}
+            <!-- END sidebar -->
+
+        </div>
+    </div>
+</section>
+<!-- End Content -->
+
+{% endblock %}

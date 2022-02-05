@@ -104,7 +104,7 @@ class BlogPostManager(PageManager):
 # Post Page
 class BlogPost(Page):
 
-    templates = 'blog/post_page.html'
+    templates = 'blog/blog_post.html'
 
     # Related Post based on Tags
     relatetags = BlogPostManager()
@@ -161,6 +161,7 @@ class BlogPost(Page):
 
     def get_context(self, request):
         context = super(BlogPost, self).get_context(request)
+        context['categories'] = PostCategory.objects.all()
         context['related_posts'] = BlogPost.relatetags.related_posts(self)
         return context
 
