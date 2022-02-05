@@ -105,7 +105,7 @@ class BlogPostManager(PageManager):
 # Post Page
 class BlogPost(Page):
 
-    template = 'blog/blog_post.html'
+    templates = 'blog/blog_post.html'
 
     # Related Post based on Tags
     relatetags = BlogPostManager()
@@ -180,7 +180,7 @@ class BlogPost(Page):
 # blog Page
 class BlogPage(RoutablePageMixin, Page):
 
-    template = 'blog/blog_page.html'
+    templates = 'blog/blog_page.html'
     max_count = 1
 
     introduction = models.TextField(

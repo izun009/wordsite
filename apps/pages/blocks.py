@@ -64,3 +64,11 @@ class BaseStreamBlock(StreamBlock):
         icon="media",
         template="blocks/embed_block.html")
 
+# About Page
+class AboutStreamBlock(StreamBlock):
+    heading_block = HeadingBlock()
+    paragraph_block = RichTextBlock(
+        icon="pilcrow",
+        template="blocks/paragraph_block.html"
+    )
+    image_block = ImageBlock()

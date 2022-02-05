@@ -31,6 +31,8 @@ SITE_ID=1
 INSTALLED_APPS = [
     'apps.blog',
     'apps.pages',
+    'apps.about',
+    'apps.contact',
     'search',
 
     'wagtail.embeds',
