@@ -51,6 +51,10 @@ INSTALLED_APPS = [
     'wagtailcodeblock',
     'modelcluster',
     'taggit',
+    'captcha',
+    'crispy_forms',
+    'wagtailcaptcha',
+
 
     'django.contrib.admin',
     'django.contrib.auth',

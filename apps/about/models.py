@@ -6,6 +6,7 @@ from wagtail.core.fields import StreamField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 
 from ..pages.blocks import AboutStreamBlock
+from ..blog.models import PostCategory
 
 # About Page
 class AboutPage(Page):
@@ -32,3 +33,7 @@ class AboutPage(Page):
         verbose_name = 'About Page'
         verbose_name_plural = 'About Pages'
 
+    def get_context(self, request):
+        context = super(AboutPage, self).get_context(request)
+        context['categories'] = PostCategory.objects.all()
+        return context
