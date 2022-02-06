@@ -197,7 +197,7 @@ class BlogPage(RoutablePageMixin, Page):
     def get_context(self, request):
         context = super(BlogPage, self).get_context(request)
         context['posts'] = BlogPost.objects.descendant_of(self).live().order_by('-first_published_at')[:10]
-        context['categories'] = PostCategory.objects.all()
+        context['categories'] = PostCategory.objects.all().annotate(posts_count=Count('blogpost'))
         return context
 
     # Tags list

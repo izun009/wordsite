@@ -1,3 +1,5 @@
+{% load static wagtailcore_tags wagtailimages_tags %}
+
 <div class="col-md-12 col-lg-4 sidebar">
   <div class="sidebar-box search-form-wrap">
     <form action="#" class="search-form">
@@ -10,13 +12,14 @@
   <!-- END sidebar-box -->
   <div class="sidebar-box">
     <div class="bio text-center">
-      <img src="images/person_1.jpg" alt="Image Placeholder" class="img-fluid">
+      
+      {% for post in posts %}
+      {% image post.author.image original as author_image %}
+      <img src="{{ author_image.url }}" alt="{{ author_image.alt }}" class="img-fluid">
       <div class="bio-body">
-        <h2>David Craig</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem facilis sunt
-          repellendus excepturi beatae porro debitis voluptate nulla quo veniam fuga sit molestias
-          minus.</p>
-        <p><a href="#" class="btn btn-primary btn-sm rounded">Read my bio</a></p>
+        <h2>{{ post.author }}</h2>
+        <p>{{ post.author.intro }}</p>
+        <p><a href="/about/" class="btn btn-primary btn-sm rounded">Read my bio</a></p>
         <p class="social">
           <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
           <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
@@ -24,6 +27,7 @@
           <a href="#" class="p-2"><span class="fa fa-youtube-play"></span></a>
         </p>
       </div>
+      {% endfor %}
     </div>
   </div>
   <!-- END sidebar-box -->
@@ -72,11 +76,9 @@
   <div class="sidebar-box">
     <h3 class="heading">Categories</h3>
     <ul class="categories">
-      <li><a href="#">Food <span>(12)</span></a></li>
-      <li><a href="#">Travel <span>(22)</span></a></li>
-      <li><a href="#">Lifestyle <span>(37)</span></a></li>
-      <li><a href="#">Business <span>(42)</span></a></li>
-      <li><a href="#">Adventure <span>(14)</span></a></li>
+      {% for category in categories %}
+        <li><a href="/category/{{ category.slug }}">{{ category.title }} <span>({{ category.posts_count }})</span></a></li>
+      {% endfor %}
     </ul>
   </div>
   <!-- END sidebar-box -->
@@ -84,18 +86,11 @@
   <div class="sidebar-box">
     <h3 class="heading">Tags</h3>
     <ul class="tags">
-      <li><a href="#">Travel</a></li>
-      <li><a href="#">Adventure</a></li>
-      <li><a href="#">Food</a></li>
-      <li><a href="#">Lifestyle</a></li>
-      <li><a href="#">Business</a></li>
-      <li><a href="#">Freelancing</a></li>
-      <li><a href="#">Travel</a></li>
-      <li><a href="#">Adventure</a></li>
-      <li><a href="#">Food</a></li>
-      <li><a href="#">Lifestyle</a></li>
-      <li><a href="#">Business</a></li>
-      <li><a href="#">Freelancing</a></li>
+      {% if page.get_child_tags %}
+        {% for tag in page.get_child_tags %}
+          <li><a href="{{ tag.url }}">#{{ tag }}</a></li>
+        {% endfor %}
+      {% endif %}
     </ul>
   </div>
 </div>
