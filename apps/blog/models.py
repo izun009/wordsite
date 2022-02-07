@@ -207,7 +207,7 @@ class BlogPage(RoutablePageMixin, Page):
             tag = Tag.objects.get(slug=tag)
         except Tag.DoesNotExist:
             return redirect(self.url)
-
+        
         posts = self.get_posts(tag=tag)
         pagination = Paginator(posts, 10)
         page = request.GET.get("page")
@@ -219,9 +219,14 @@ class BlogPage(RoutablePageMixin, Page):
         except EmptyPage:
             posts = pagination.page(pagination.num_pages)
 
+        categories = PostCategory.objects.all().annotate(posts_count=Count('blogpost'))
+        all_tags = Tag.objects.all()
+
         context = {
             'tag': tag,
             'posts': posts,
+            'all_tags':all_tags,
+            'categories':categories,
         }
         return render(request, 'blog/blog_category_and_tag.html', context)
         

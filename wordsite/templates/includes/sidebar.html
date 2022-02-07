@@ -1,16 +1,7 @@
 {% load static wagtailcore_tags wagtailimages_tags %}
 
 <div class="col-md-12 col-lg-4 sidebar">
-  <div class="sidebar-box search-form-wrap">
-    <form action="#" class="search-form">
-      <div class="form-group">
-        <span class="icon fa fa-search"></span>
-        <input type="text" class="form-control" id="s" placeholder="Type a keyword and hit enter">
-      </div>
-    </form>
-  </div>
-  <!-- END sidebar-box -->
-
+  
   {% if page.author %}
   <div class="sidebar-box">
     <div class="bio text-center">
@@ -20,7 +11,6 @@
       <div class="bio-body">
         <h2>{{ page.author }}</h2>
         <p>{{ page.author.intro }}</p>
-        <p><a href="/about/" class="btn btn-primary btn-sm rounded">Read my bio</a></p>
       </div>
     </div>
   </div>
@@ -28,6 +18,33 @@
   {% else %}
 
   {% endif %}
+  <!-- END sidebar-box -->
+
+  <div class="sidebar-box">
+    <h3 class="heading">Tags</h3>
+    <ul class="tags">
+
+      {# untuk global #}
+      {% if page.get_child_tags %}
+        {% for tag in page.get_child_tags %}
+          <li><a href="{{ tag.url }}">#{{ tag }}</a></li>
+        {% endfor %}
+
+      {% elif all_tags %}
+
+        {# untuk blog post #}
+        {% for tag in all_tags %}
+          <li><a href="/tag/{{ tag.slug }}">#{{ tag }}</a></li>
+        {% endfor %}
+
+      {% else %}
+        {% for tag in page.tags.all %}
+          <li><a href="/tag/{{ tag.slug }}">#{{ tag }}</a></li>
+        {% endfor %}
+
+      {% endif %}
+    </ul>
+  </div>
   <!-- END sidebar-box -->
 
   <div class="sidebar-box">
@@ -44,25 +61,6 @@
   </div>
   <!-- END sidebar-box -->
 
-  <div class="sidebar-box">
-    <h3 class="heading">Tags</h3>
-    <ul class="tags">
-
-      {# untuk global #}
-      {% if page.get_child_tags %}
-        {% for tag in page.get_child_tags %}
-          <li><a href="{{ tag.url }}">#{{ tag }}</a></li>
-        {% endfor %}
-
-      {% else %}
-
-        {# untuk blog post #}
-        {% for tag in all_tags %}
-          <li><a href="/tag/{{ tag.slug }}">#{{ tag }}</a></li>
-        {% endfor %}
-
-      {% endif %}
-    </ul>
-  </div>
+  
 </div>
 <!-- END sidebar -->

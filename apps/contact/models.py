@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count
 
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
@@ -11,7 +12,7 @@ from wagtail.admin.edit_handlers import (
     MultiFieldPanel,
 )
 
-from ..blog.models import PostCategory
+from ..blog.models import PostCategory, Tag
 
 class FormField(AbstractFormField):
     page = ParentalKey("ContactPage", related_name="custom_form_fields")
@@ -44,7 +45,8 @@ class ContactPage(WagtailCaptchaEmailForm):
 
     def get_context(self, request):
         context = super(ContactPage, self).get_context(request)
-        context['categories'] = PostCategory.objects.all()
+        context['all_tags'] = Tag.objects.all()
+        context['categories'] = PostCategory.objects.all().annotate(posts_count=Count('blogpost'))        
         return context
 
     def get_form_fields(self):

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -17,120 +17,79 @@ Tag: {{ tag }}
 {% block content %}
 <!-- Block content -->
 
-<div class="container px-4 px-lg-5">
-
-    <!-- Head Section -->
-    <section>
-
+<section class="site-section pt-5">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-md-6">
         {% if tag %}
-        <div class="row gx-5 justify-content-center mt-5">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <h1>Tag: "{{ tag }}"</h1>
-                <hr>
-            </div>
-        </div>
+        <h2 class="mb-4">Tag: {{ tag }}</h2>
         {% else %}
-        <div class="row gx-5 justify-content-center mt-5">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <h1>{{ page.title|title }}</h1>
-                <span class="text-secondary">{{ page.introduction|title }}</span>
-                <hr>
-            </div>
-        </div>
+        <h2 class="mb-4">Category: {{ page.title }}</h2>
         {% endif %}
+      </div>
+    </div>
+    <div class="row blog-entries">
+      <div class="col-md-12 col-lg-8 main-content">
+        <div class="row mb-5 mt-5">
 
-    </section>
+          <div class="col-md-12">
+            {% for blog in posts|slice:"5" %}
+            {% with blog=blog.specific %}
 
-
-    <!-- Post Section -->
-    <section>
-        <div class="row gx-5 justify-content-center mt-3">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-
-                {% for blog in posts|slice:"5" %}
-                {% with blog=blog.specific %}
-
-                <!-- Post preview-->
-                <div class="post-preview">
-                    <a href="{{ blog.url }}">
-                        <h1 class="post-title">{{ blog.title|title }}</h1>
-                    </a>
-                    <span class="post-meta mb-2">
-                        Published on {{ blog.first_published_at|date:"j F Y" }}
-                    </span>
-                    <p class="post-meta">
-                        {% for tag in blog.tags.all %}
-                        <span class="badge rounded-pill bg-secondary">
-                            #{{ tag }}
-                        </span>
-                        {% endfor %}
-                    </p>
-                </div>
-
-                <!-- Divider-->
-                <hr class="my-4" />
-
-                {% endwith %}
-                {% endfor %}
-
-                <!-- Pager-->
-                {% if posts.paginator.num_pages > 1 %}
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-
-                        {% if posts.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        {% endif %}
-
-                        <!-- pagination number -->
-                        {% for i in posts.paginator.page_range %}
-                        {% if posts.number == i %}
-                        <li class="page-item active" aria-current="page">
-                            <span class="page-link">
-                                {{ i }}
-                                <span class="sr-only">(current)</span>
-                            </span>
-                        </li>
-                        {% elif i > posts.number|add:'-2' and i < posts.number|add:'2' %}
-                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                        {% endif %}
-                        {% endfor %}
-                        <!-- pagination number -->
-
-                        {% if posts.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                        {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link" aria-label="Previous">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                        {% endif %}
-
-                    </ul>
-                </nav>
-                {% endif %}
-
+            <div class="post-entry-horzontal">
+              <a href="{{ blog.url }}">
+                {% image blog.blog_image original as blog_image%}
+                <div class="image element-animate" data-animate-effect="fadeIn"
+                  style="background-image: url({{ blog_image.url }});"></div>
+                <span class="text">
+                  <div class="post-meta">
+                    <span class="author mr-2">
+                      {% image blog.author.image original as thumbnail%}
+                      <img src="{{ thumbnail.url }}" alt="{{ thumbnail.alt }}"> {{ blog.author }}</span>&bullet;
+                    <span class="mr-2">{{ blog.first_published_at|date:"j F Y" }} </span> &bullet;
+                    <span class="mr-2">{{ blog.category }}</span> &bullet;
+                    <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                  </div>
+                  <h2>{{ blog.title }}</h2>
+                </span>
+              </a>
             </div>
+            <!-- END post -->
 
+            {% endwith %}
+            {% endfor %}
+
+          </div>
         </div>
-    </section>
 
-</div>
+        <div class="row mt-5">
+          <div class="col-md-12 text-center">
+            <nav aria-label="Page navigation" class="text-center">
+              <ul class="pagination">
+                <li class="page-item  active"><a class="page-link" href="#">&lt;</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#">&gt;</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!-- END main-content -->
+
+      {% include 'includes/sidebar.html' %}
+      <!-- END sidebar -->
+
+    </div>
+  </div>
+</section>
 
 <!-- Endblock content -->
 {% endblock content %}

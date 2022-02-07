@@ -5,8 +5,12 @@
     <div class="container">
       <div class="row">
         <div class="col-9 social">
-          <a href="#"><span class="fa fa-twitter"></span></a>
-          <a href="#"><span class="fa fa-facebook"></span></a>
+          {% if settings.social_media.SocialMediaSettings.twitter %}
+          <a href="{{ settings.social_media.SocialMediaSettings.twitter }}"><span class="fa fa-twitter"></span></a>
+          {% endif %}
+          {% if settings.social_media.SocialMediaSettings.facebook %}
+          <a href="{{ settings.social_media.SocialMediaSettings.facebook }}"><span class="fa fa-facebook"></span></a>
+          {% endif %}
           <a href="#"><span class="fa fa-instagram"></span></a>
           <a href="#"><span class="fa fa-youtube-play"></span></a>
         </div>

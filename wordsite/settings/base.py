@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'apps.pages',
     'apps.about',
     'apps.contact',
+    'apps.social_media',
     'search',
 
     'wagtail.embeds',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
+    'wagtail.contrib.settings',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.contrib.modeladmin',
