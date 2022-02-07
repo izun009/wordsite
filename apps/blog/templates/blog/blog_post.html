@@ -35,26 +35,26 @@
                 </div>
                 <h1 class="mb-4">{{ page.title }}</h1>
                 {% for category in page.categories.all %}
-                    <a class="category mb-5" href="/category/{{ category.slug }}">{{ category.title }}</a> 
+                <a class="category mb-5" href="/category/{{ category.slug }}">{{ category.title }}</a>
                 {% endfor %}
 
                 <div class="post-content-body">
                     {% with blocks=page.body %}
-                        {% for block in blocks %}
-                            <section class="block-{{ block.block_type }}">
-                                {{ block }}
-                            </section>
-                        {% endfor %}
+                    {% for block in blocks %}
+                    <section class="block-{{ block.block_type }}">
+                        {{ block }}
+                    </section>
+                    {% endfor %}
                     {% endwith %}
                 </div>
 
 
                 <div class="pt-5">
-                    <p>Tags: 
+                    <p>Tags:
                         {% if page.get_tags %}
-                            {% for tag in page.get_tags %}
-                                <a href="{{ tag.url }}">#{{ tag }}</a>,
-                            {% endfor %}
+                        {% for tag in page.get_tags %}
+                        <a href="{{ tag.url }}">#{{ tag }}</a>,
+                        {% endfor %}
                         {% endif %}
                 </div>
 
@@ -95,6 +95,42 @@
 
             {% include 'includes/sidebar.html' %}
             <!-- END sidebar -->
+
+            <section class="py-5">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h2 class="mb-3 ">Related Post</h2>
+                    </div>
+                  </div>
+                  <div class="row">
+
+                    {% for related in related_posts %}
+                    {% with related=related.specific %}
+                    <div class="col-md-6 col-lg-4">
+                        {% image related.blog_image original as thumbnail %}
+                      <a href="{{ related.url }}" class="a-block sm d-flex align-items-center height-md" style="background-image: url('{{ thumbnail.url }}'); ">
+                        <div class="text">
+                          <div class="post-meta">
+                            {% for category in related.categories.all %}
+                                <span class="category">{{ category.title }}</span>
+                            {% endfor %}
+                            <span class="mr-2">{{ related.first_published_at|date:"j F Y" }} </span> &bullet;
+                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                          </div>
+                          <h3>{{ related.title }}</h3>
+                        </div>
+                      </a>
+                    </div>
+                    {% endwith %}
+                    {% endfor %}
+
+                  </div>
+                </div>
+          
+          
+              </section>
+              <!-- END section -->
 
         </div>
     </div>

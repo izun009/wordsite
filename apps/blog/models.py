@@ -159,10 +159,11 @@ class BlogPost(Page):
         verbose_name = 'Post'
         verbose_name_plural = 'Posts'
 
-
     def get_context(self, request):
         context = super(BlogPost, self).get_context(request)
-        context['related_posts'] = BlogPost.relatetags.related_posts(self)
+        context['related_posts'] = BlogPost.relatetags.related_posts(self)[:3]
+        context['categories'] = PostCategory.objects.all().annotate(posts_count=Count('blogpost'))
+        context['all_tags'] = Tag.objects.all()
         return context
 
     @property
@@ -191,9 +192,6 @@ class BlogPage(RoutablePageMixin, Page):
         FieldPanel('introduction', classname="full"),
     ]
 
-    def children(self):
-        return self.get_children().specific().live()
-
     def get_context(self, request):
         context = super(BlogPage, self).get_context(request)
         context['posts'] = BlogPost.objects.descendant_of(self).live().order_by('-first_published_at')[:10]
@@ -208,9 +206,6 @@ class BlogPage(RoutablePageMixin, Page):
         try:
             tag = Tag.objects.get(slug=tag)
         except Tag.DoesNotExist:
-            if tag:
-                msg = 'There are no blog posts tagged with "{}"'.format(tag)
-                messages.add_message(request, messages.INFO, msg)
             return redirect(self.url)
 
         posts = self.get_posts(tag=tag)

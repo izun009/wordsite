@@ -29,31 +29,31 @@ Tag: {{ tag }}
                 <div class="row">
 
                     {% for blog in posts %}
-                        {% with blog=blog.specific %}
+                    {% with blog=blog.specific %}
 
-                        <div class="col-md-6">
-                            <a href="{{ blog.slug }}" class="blog-entry element-animate" data-animate-effect="fadeIn">
-                                {# image for blog post #}
-                                {% image blog.blog_image original as thumbnail %}
-                                <img src="{{ thumbnail.url }}" alt="{{ thumbnail.alt }}">
-                                <div class="blog-content-body">
-                                    <div class="post-meta">
-                                        <span class="author mr-2">
-                                            {# image for author #}
-                                            {% image blog.author.image original as author_image %}
-                                            <img src="{{ author_image.url }}" alt="{{ author_image.alt }}">
-                                            {{ blog.author }}</span>&bullet;
-                                        <span class="mr-2">{{ blog.first_published_at|date:"j F Y" }} </span> &bullet;
-                                        <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                                    </div>
-                                    <h2>{{ blog.title|title }}</h2>
+                    <div class="col-md-6">
+                        <a href="{{ blog.slug }}" class="blog-entry element-animate" data-animate-effect="fadeIn">
+                            {# image for blog post #}
+                            {% image blog.blog_image original as thumbnail %}
+                            <img src="{{ thumbnail.url }}" alt="{{ thumbnail.alt }}">
+                            <div class="blog-content-body">
+                                <div class="post-meta">
+                                    <span class="author mr-2">
+                                        {# image for author #}
+                                        {% image blog.author.image original as author_image %}
+                                        <img src="{{ author_image.url }}" alt="{{ author_image.alt }}">
+                                        {{ blog.author }}</span>&bullet;
+                                    <span class="mr-2">{{ blog.first_published_at|date:"j F Y" }} </span> &bullet;
+                                    <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
                                 </div>
-                            </a>
-                        </div>
+                                <h2>{{ blog.title|title }}</h2>
+                            </div>
+                        </a>
+                    </div>
 
-                        {% endwith %}
+                    {% endwith %}
                     {% endfor %}
-                    
+
                 </div>
 
                 <div class="row mt-5">
@@ -77,6 +77,7 @@ Tag: {{ tag }}
             <!-- END main-content -->
 
             {% include 'includes/sidebar.html' %}
+            <!-- END sidebar -->
 
         </div>
     </div>

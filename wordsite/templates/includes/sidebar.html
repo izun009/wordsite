@@ -10,74 +10,35 @@
     </form>
   </div>
   <!-- END sidebar-box -->
+
+  {% if page.author %}
   <div class="sidebar-box">
     <div class="bio text-center">
-      
-      {% for post in posts %}
-      {% image post.author.image original as author_image %}
+
+      {% image page.author.image original as author_image %}
       <img src="{{ author_image.url }}" alt="{{ author_image.alt }}" class="img-fluid">
       <div class="bio-body">
-        <h2>{{ post.author }}</h2>
-        <p>{{ post.author.intro }}</p>
+        <h2>{{ page.author }}</h2>
+        <p>{{ page.author.intro }}</p>
         <p><a href="/about/" class="btn btn-primary btn-sm rounded">Read my bio</a></p>
-        <p class="social">
-          <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-          <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-          <a href="#" class="p-2"><span class="fa fa-instagram"></span></a>
-          <a href="#" class="p-2"><span class="fa fa-youtube-play"></span></a>
-        </p>
       </div>
-      {% endfor %}
     </div>
   </div>
-  <!-- END sidebar-box -->
-  <div class="sidebar-box">
-    <h3 class="heading">Popular Posts</h3>
-    <div class="post-entry-sidebar">
-      <ul>
-        <li>
-          <a href="">
-            <img src="images/img_2.jpg" alt="Image placeholder" class="mr-4">
-            <div class="text">
-              <h4>How to Find the Video Games of Your Youth</h4>
-              <div class="post-meta">
-                <span class="mr-2">March 15, 2018 </span>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <img src="images/img_4.jpg" alt="Image placeholder" class="mr-4">
-            <div class="text">
-              <h4>How to Find the Video Games of Your Youth</h4>
-              <div class="post-meta">
-                <span class="mr-2">March 15, 2018 </span>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <img src="images/img_12.jpg" alt="Image placeholder" class="mr-4">
-            <div class="text">
-              <h4>How to Find the Video Games of Your Youth</h4>
-              <div class="post-meta">
-                <span class="mr-2">March 15, 2018 </span>
-              </div>
-            </div>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
+
+  {% else %}
+
+  {% endif %}
   <!-- END sidebar-box -->
 
   <div class="sidebar-box">
     <h3 class="heading">Categories</h3>
     <ul class="categories">
       {% for category in categories %}
-        <li><a href="/category/{{ category.slug }}">{{ category.title }} <span>({{ category.posts_count }})</span></a></li>
+      <li>
+        <a href="/category/{{ category.slug }}" class="text-secondary">
+          <i class="fa fa-folder"></i> {{ category.title }} <span>({{ category.posts_count }})</span>
+        </a>
+      </li>
       {% endfor %}
     </ul>
   </div>
@@ -86,10 +47,20 @@
   <div class="sidebar-box">
     <h3 class="heading">Tags</h3>
     <ul class="tags">
+
+      {# untuk global #}
       {% if page.get_child_tags %}
         {% for tag in page.get_child_tags %}
           <li><a href="{{ tag.url }}">#{{ tag }}</a></li>
         {% endfor %}
+
+      {% else %}
+
+        {# untuk blog post #}
+        {% for tag in all_tags %}
+          <li><a href="/tag/{{ tag.slug }}">#{{ tag }}</a></li>
+        {% endfor %}
+
       {% endif %}
     </ul>
   </div>

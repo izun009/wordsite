@@ -18,6 +18,9 @@ class FormField(AbstractFormField):
 
 
 class ContactPage(WagtailCaptchaEmailForm):
+
+    max_count = 1
+
     thank_you_text = RichTextField(blank=True)
 
     content_panels = AbstractEmailForm.content_panels + [
@@ -36,6 +39,8 @@ class ContactPage(WagtailCaptchaEmailForm):
             "Email Notification Config",
         ),
     ]
+
+    subpage_types = []
 
     def get_context(self, request):
         context = super(ContactPage, self).get_context(request)
