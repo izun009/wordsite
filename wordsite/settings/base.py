@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'apps.about',
     'apps.contact',
     'apps.social_media',
-    'search',
 
     'wagtail.embeds',
     'wagtail.sites',

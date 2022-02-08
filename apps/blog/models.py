@@ -14,7 +14,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from wagtail.search import index
 from wagtail.search.models import Query
 from wagtail.core.fields import StreamField
-from wagtail.core.models import Page, PageManager
+from wagtail.core.models import Page, PageManager, Orderable
 from wagtail.snippets.models import register_snippet
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
@@ -102,7 +102,7 @@ class BlogPostManager(PageManager):
         related = matches.order_by('-title__count')
         return related[:max_items]
 
-# Post Page
+# blog post
 class BlogPost(Page):
 
     templates = 'blog/blog_post.html'
