@@ -304,9 +304,14 @@ class BlogPage(RoutablePageMixin, Page):
         except EmptyPage:
             search_results = paginator.page(paginator.num_pages)
 
+        categories = PostCategory.objects.all().annotate(posts_count=Count('blogpost'))
+        all_tags = Tag.objects.all()
+
         context = {
             'search_query': search_query,
             'search_results': search_results,
+            'categories':categories,
+            'all_tags':all_tags,
         }
 
         return render(request, 'blog/search_page.html', context)

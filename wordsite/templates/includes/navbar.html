@@ -5,20 +5,27 @@
     <div class="container">
       <div class="row">
         <div class="col-9 social">
+
+          {# Social Media #}
           {% if settings.social_media.SocialMediaSettings.twitter %}
-          <a href="{{ settings.social_media.SocialMediaSettings.twitter }}"><span class="fa fa-twitter"></span></a>
+            <a href="{{ settings.social_media.SocialMediaSettings.twitter }}"><span class="fa fa-twitter"></span></a>
           {% endif %}
           {% if settings.social_media.SocialMediaSettings.facebook %}
-          <a href="{{ settings.social_media.SocialMediaSettings.facebook }}"><span class="fa fa-facebook"></span></a>
+            <a href="{{ settings.social_media.SocialMediaSettings.facebook }}"><span class="fa fa-facebook"></span></a>
           {% endif %}
-          <a href="#"><span class="fa fa-instagram"></span></a>
-          <a href="#"><span class="fa fa-youtube-play"></span></a>
+          {% if settings.social_media.SocialMediaSettings.instagram %}
+            <a href="{{settings.social_media.SocialMediaSettings.instagram}}"><span class="fa fa-instagram"></span></a>
+          {% endif %}
+          {% if settings.social_media.SocialMediaSettings.youtube %}
+            <a href="{{settings.social_media.SocialMediaSettings.youtube}}"><span class="fa fa-youtube-play"></span></a>
+          {% endif %}
+          
         </div>
         <div class="col-3 search-top">
           <!-- <a href="#"><span class="fa fa-search"></span></a> -->
-          <form action="#" class="search-top-form">
+          <form action="/s/{{ search_view.url }}" class="search-top-form" method="get">
             <span class="icon fa fa-search"></span>
-            <input type="text" id="s" name="q" placeholder="Type keyword to search...">
+            <input type="text" name="q" placeholder="Type keyword to search...">
           </form>
         </div>
       </div>
@@ -42,7 +49,7 @@
       <div class="collapse navbar-collapse" id="navbarMenu">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="/">Home</a>
+            <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="category.html" id="dropdown05" data-toggle="dropdown"

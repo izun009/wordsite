@@ -9,11 +9,13 @@ class SocialMediaSettings(BaseSetting):
     facebook = models.URLField(blank=True, null=True, help_text="Facebook URL")
     twitter = models.URLField(blank=True, null=True, help_text="Twitter URL")
     youtube = models.URLField(blank=True, null=True, help_text="YouTube Channel URL")
+    instagram = models.URLField(blank=True, null=True, help_text="Instagram URL")
 
     panels = [
         MultiFieldPanel([
             FieldPanel("facebook"),
             FieldPanel("twitter"),
+            FieldPanel("instagram"),
             FieldPanel("youtube"),
         ], heading="Social Media Settings")
     ]
